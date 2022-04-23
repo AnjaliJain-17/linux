@@ -29,4 +29,8 @@ Team Member: Anjali Jain (015244151)
   - git add
   - git commit -m "This is assignment1 of CMPE283"
   - git push
-
+Output:
+### Screenshot 1
+![Screenshot 1](cmpe283/output-1.png)
+### Screenshot 2
+![Screenshot 2](cmpe283/output-2.png)
