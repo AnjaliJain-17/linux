@@ -70,6 +70,13 @@
 MODULE_AUTHOR("Qumranet");
 MODULE_LICENSE("GPL");
 
+extern u32 total_exits;
+extern u64 total_exits_time;
+// extern u32 noepen[69];
+// extern u64 tpe[69];
+
+
+
 #ifdef MODULE
 static const struct x86_cpu_id vmx_cpu_id[] = {
 	X86_MATCH_FEATURE(X86_FEATURE_VMX, NULL),
@@ -6007,10 +6014,16 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
  */
 static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 {
+	u64 start_time;
+	u64 total_time;
 	struct vcpu_vmx *vmx = to_vmx(vcpu);
 	union vmx_exit_reason exit_reason = vmx->exit_reason;
 	u32 vectoring_info = vmx->idt_vectoring_info;
 	u16 exit_handler_index;
+	int exit_handler;
+   
+	total_exits=total_exits+1;	
+
 
 	/*
 	 * Flush logged GPAs PML buffer, this will make dirty_bitmap more
@@ -6163,12 +6176,19 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 		return handle_ept_misconfig(vcpu);
 #endif
 
-	exit_handler_index = array_index_nospec((u16)exit_reason.basic,
+exit_handler_index = array_index_nospec((u16)exit_reason.basic,
 						kvm_vmx_max_exit_handlers);
 	if (!kvm_vmx_exit_handlers[exit_handler_index])
 		goto unexpected_vmexit;
-
-	return kvm_vmx_exit_handlers[exit_handler_index](vcpu);
+	
+	start_time = rdtsc();		
+	
+	exit_handler=kvm_vmx_exit_handlers[exit_handler_index](vcpu);
+	
+	total_time = rdtsc() - start_time;
+	total_exits_time = total_time  + total_exits_time;		
+	
+	return exit_handler;
 
 unexpected_vmexit:
 	vcpu_unimpl(vcpu, "vmx: unexpected exit reason 0x%x\n",

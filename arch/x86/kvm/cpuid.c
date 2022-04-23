@@ -1,3 +1,4 @@
+
 // SPDX-License-Identifier: GPL-2.0-only
 /*
  * Kernel-based Virtual Machine driver for Linux
@@ -31,6 +32,12 @@
  */
 u32 kvm_cpu_caps[NR_KVM_CPU_CAPS] __read_mostly;
 EXPORT_SYMBOL_GPL(kvm_cpu_caps);
+
+u32 total_exits = 0;
+EXPORT_SYMBOL(total_exits);
+
+u64 total_exits_time = 0;
+EXPORT_SYMBOL(total_exits_time);
 
 u32 xstate_required_size(u64 xstate_bv, bool compacted)
 {
@@ -1448,7 +1455,20 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 
 	eax = kvm_rax_read(vcpu);
 	ecx = kvm_rcx_read(vcpu);
+	if(eax == 0x4fffffff)
+	{
+		eax = total_exits;
+	 	printk(KERN_INFO "total_exits:  %d", total_exits);
+	}
+	else if(eax == 0x4ffffffe){
+		ebx = (total_exits_time >> 32);
+		ecx = (total_exits_time & 0xFFFFFFFF); 
+		printk(KERN_INFO "Total Exit Time For All Exits = %llu", total_exits_time);
+	}
+
+	else {
 	kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
+	}
 	kvm_rax_write(vcpu, eax);
 	kvm_rbx_write(vcpu, ebx);
 	kvm_rcx_write(vcpu, ecx);
