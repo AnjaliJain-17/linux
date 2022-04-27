@@ -1,3 +1,29 @@
+Assignment 3
+=============
+Team Member: Anjali Jain (015244151)
+
+1. Did the assignment by myself.
+2. Steps used to complete the assignment :
+- Added code in cpuid.c and vmx.c to implement the functionality for eax= 0x4FFFFFFF and 0x4FFFFFFE(as required in the question)
+- make -j 8 modules
+- sudo bash
+- make INSTALL_MOD_STRIP=1 modules_install && make install
+- lsmod | grep kvm
+- rmmod kvm_intel
+- rmmod kvm
+- modprobe kvm
+- modprobe kvm_intel
+- lsmod | grep kvm
+
+3. Login into the inner vm
+  - sudo virsh start centOSvm
+  - sudo virsh console centOSvm
+
+4. -Run the below commands
+   for i in `seq 0 69`; do cpuid -l 0x4ffffffd -s $i; done
+   
+   
+  
 Assignment 2
 =============
 
