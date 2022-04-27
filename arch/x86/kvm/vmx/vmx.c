@@ -72,8 +72,8 @@ MODULE_LICENSE("GPL");
 
 extern u32 total_exits;
 extern u64 total_exits_time;
-// extern u32 noepen[69];
-// extern u64 tpe[69];
+extern u32 exit_frequency[69];
+extern u64 exit_process_time[69];
 
 
 
@@ -6023,7 +6023,9 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 	int exit_handler;
    
 	total_exits=total_exits+1;	
-
+	if (exit_reason.basic <= 69) {
+		exit_frequency[exit_reason.basic]++;		
+	}
 
 	/*
 	 * Flush logged GPAs PML buffer, this will make dirty_bitmap more
@@ -6186,7 +6188,9 @@ exit_handler_index = array_index_nospec((u16)exit_reason.basic,
 	exit_handler=kvm_vmx_exit_handlers[exit_handler_index](vcpu);
 	
 	total_time = rdtsc() - start_time;
-	total_exits_time = total_time  + total_exits_time;		
+	total_exits_time = total_time  + total_exits_time;	
+
+	exit_process_time[(int)exit_handler_index] = (total_time + exit_process_time[(int)exit_handler_index]);		
 	
 	return exit_handler;
 
