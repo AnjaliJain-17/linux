@@ -1,3 +1,40 @@
+Assignment 3
+=============
+Team Member: Anjali Jain (015244151)
+
+1. Did the assignment by myself.
+2. Steps used to complete the assignment :
+- Added code in cpuid.c and vmx.c to implement the functionality for eax= 0x4FFFFFFD and 0x4FFFFFFC(as required in the question)
+- make -j 8 modules
+- sudo bash
+- make INSTALL_MOD_STRIP=1 modules_install && make install
+- lsmod | grep kvm
+- rmmod kvm_intel
+- rmmod kvm
+- modprobe kvm
+- modprobe kvm_intel
+- lsmod | grep kvm
+
+3. Login into the inner vm
+  - sudo virsh start centOSvm
+  - sudo virsh console centOSvm
+
+4. -Run the below commands:
+  -  for i in seq 0 69 ; do cpuid -l 0x4ffffffd -s $i; done
+  ### screenshot of output 
+  ![Screenshot 4](cmpe283/output3-4.png)
+  ![Screenshot 5](cmpe283/output3-1.png)
+  
+### Questions : 
+#### Comment on the frequency of exits – does the number of exits increase at a stable rate? Or are there more exits performed during certain VM operations? Approximately how many exits does a full VM boot entail?
+
+- No, the number of exists do not increase at a stable rate. More exits are performed during operation suchas MSR access, IO instructions and EPT violation. Total number of exits on full VM boot is 1571144.
+
+
+#### Of the exit types defined in the SDM, which are the most frequent? Least?
+- I observed that most frequenct exits are related to EPT Violation(48), EPT Misconfiguration(49), MSR access(32), CPUID(10),HLT(12),IO Instruction(30) and Interrupt Window(7). The least frequent exits are related to VMWRITE, VMXON, VMXOFF,VM-entry failure due to machine-check event amongs other exits.
+
+
 Assignment 2
 =============
 
