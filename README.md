@@ -21,9 +21,22 @@ Team Member: Anjali Jain (015244151)
 
 4. -Run the below commands
    for i in `seq 0 69`; do cpuid -l 0x4ffffffd -s $i; done
-   
-   
+  ### screenshot of output 
+  ![Screenshot 4](cmpe283/output3-4.png)
+  ![Screenshot 5](cmpe283/output3-1.png)
   
+### Questions : 
+#### Comment on the frequency of exits – does the number of exits increase at a stable rate? Or are there 
+more exits performed during certain VM operations? Approximately how many exits does a full VM 
+boot entail?
+
+- No, the number of exists do not increase at a stable rate. More exits are performed during operation suchas MSR access, IO instructions and EPT violation. Total number of exits on full VM boot is 1571144.
+
+
+#### Of the exit types defined in the SDM, which are the most frequent? Least?
+- I observed that most frequenct exits are related to EPT Violation(48), EPT Misconfiguration(49), MSR access(32), CPUID(10),HLT(12),IO Instruction(30) and Interrupt Window(7). The least frequent exits are related to VMWRITE, VMXON, VMXOFF,VM-entry failure due to machine-check event amongs other exits.
+
+
 Assignment 2
 =============
 
