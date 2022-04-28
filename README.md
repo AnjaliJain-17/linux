@@ -19,8 +19,8 @@ Team Member: Anjali Jain (015244151)
   - sudo virsh start centOSvm
   - sudo virsh console centOSvm
 
-4. -Run the below commands
-   for i in `seq 0 69`; do cpuid -l 0x4ffffffd -s $i; done
+4. -Run the below commands:
+  -  for i in seq 0 69 ; do cpuid -l 0x4ffffffd -s $i; done
   ### screenshot of output 
   ![Screenshot 4](cmpe283/output3-4.png)
   ![Screenshot 5](cmpe283/output3-1.png)
