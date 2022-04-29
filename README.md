@@ -29,7 +29,7 @@ Team Member: Anjali Jain (015244151)
 - I observed that the count of exits increased significantly. This is what i had expected as shadow paging requires more number of exits to be performed so that it can function properly as VMM
 
 #### What changed between the two runs (ept vs no-ept)?
-- I observed increase in number of exits for NMI(0), External Interrupt(1), Interrupt Window(7), CPUID(10), IO Instruction(30), INVPCID(58), CR Access(28) among other exits.
+- I observed increase in number of exits for NMI(0) from 11073 to 1264606, External Interrupt(1), Interrupt Window(7), CPUID(10), IO Instruction(30), INVPCID(58), CR Access(28) among other exits. 
 
 Assignment 3
 =============
